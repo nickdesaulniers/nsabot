@@ -1,0 +1,7 @@
+{
+  "server": "irc.yourserver.org",
+  "channels": [
+    "#nsa",
+    "#security"
+  ]
+}

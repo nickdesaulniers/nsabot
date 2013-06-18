@@ -1,0 +1,18 @@
+{
+  "name": "nsabot",
+  "version": "0.0.0",
+  "description": "Help the NSA protect you with this handy IRC bot",
+  "repository": "",
+  "keywords": [
+    "NSA",
+    "IRC",
+    "Bot",
+    "privacy",
+    "security"
+  ],
+  "author": "Nick Desaulniers",
+  "license": "BSD",
+  "dependencies": {
+    "irc": "0.3.6"
+  }
+}

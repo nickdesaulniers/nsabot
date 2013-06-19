@@ -1,13 +1,24 @@
 var irc = require('irc');
-var config = require('config.json');
+var config = require('./config.json');
 var client = new irc.Client(config.server, 'NSA_BOT', {
   debug: true,
   channels: config.channels,
-  userName: 'National Security Agency',
+  userName: 'NationalSecurityAgency',
   realName: 'James Clapper'
 });
 
 const REMARK_INTERVAL = 1 /*h*/* 60 /*m*/ * 60 /*s*/ * 1000 /*ms*/;
+const NSA_BOT = /nsa_bot/i;
+
+client.addListener('message', function (from, to, message) {
+  if (NSA_BOT.test(message)) {
+    console.log('mentioned: %s => %s: %s', from, to, message);
+    client.say(to,
+      'Thanks ' + from + ', your response has been noted in #nsa.');
+    client.say('#nsa', 'Suspected terrorist: ' + from + ', said: "' + message
+      + '" in ' + to + ' at ' + new Date() + '.  Drone strike dispatched.');
+  }
+});
 
 var remarks = [
   'Have no fear, citizens! The NSA is here to protect you',
@@ -18,7 +29,6 @@ var remarks = [
   'We only use collected data to provide targeted ads, just what you NEED',
   'Skype running slow?  Please wait while we respool our tape',
   'Jeez, it\'s really hard to get any meaningful data from Twitter',
-  'Hey cut that out before you go blind!',
   'Drone strike dispatched.',
   'Collateral Damage? lulz',
   'Why use a service like Box or Dropbox when your tax dollars already pay to back up all of your data?  Switch today!',
@@ -33,7 +43,9 @@ var remarks = [
 ];
 
 setInterval(function () {
-  // Math.random is exclusive of 1
-  client.say('#nsa', remarks[Math.random() * remarks.length | 0]);
+  config.channels.forEach(function each (channel) {
+    // Math.random is exclusive of 1
+    client.say(channel, remarks[Math.random() * remarks.length | 0]);
+  });
 }, REMARK_INTERVAL);
 
